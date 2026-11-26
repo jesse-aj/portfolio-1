@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jesse Appiah — Software Engineer</title>
+  <title>Jesse O.A Appiah — Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d0d0d;
-      --surface: #141414;
-      --border: #222;
-      --text: #e8e5df;
-      --muted: #777;
-      --accent: #c8f07c;
-      --accent-dim: rgba(200,240,124,0.1);
-      --font-display: 'Syne', sans-serif;
-      --font-body: 'DM Sans', sans-serif;
+      --bg: #f7f8fa;
+      --surface: #eef1f5;
+      --border: #d8dee8;
+      --text: #28313d;
+      --muted: #657184;
+      --accent: #315d8a;
+      --accent-dim: rgba(49,93,138,0.1);
+      --font-display: 'Nunito Sans', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -42,7 +42,7 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 999;
-      opacity: 0.4;
+      opacity: 0.18;
     }
 
     /* ─── NAV ─────────────────────────────────── */
@@ -60,7 +60,7 @@
     }
     nav.scrolled {
       border-color: var(--border);
-      background: rgba(13,13,13,0.85);
+      background: rgba(247,248,250,0.9);
       backdrop-filter: blur(12px);
     }
     .nav-logo {
@@ -123,7 +123,7 @@
       font-weight: 800;
       font-size: clamp(3rem, 8vw, 7rem);
       line-height: 1.0;
-      letter-spacing: -2px;
+      letter-spacing: -1px;
       margin-bottom: 1.5rem;
       opacity: 0;
       animation: fadeUp 0.7s 0.2s forwards;
@@ -166,7 +166,7 @@
     }
     .btn-primary {
       background: var(--accent);
-      color: #0d0d0d;
+      color: #fff;
       border-color: var(--accent);
     }
     .btn-primary:hover { background: transparent; color: var(--accent); }
@@ -211,9 +211,9 @@
     }
     .section-title {
       font-family: var(--font-display);
-      font-weight: 700;
+      font-weight: 600;
       font-size: clamp(1.8rem, 4vw, 2.8rem);
-      letter-spacing: -1px;
+      letter-spacing: -0.5px;
       margin-bottom: 1rem;
     }
     .section-sub {
@@ -270,7 +270,7 @@
 
     .stat-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1.5rem;
       border-top: 1px solid var(--border);
       padding-top: 2rem;
@@ -325,7 +325,7 @@
       background: var(--accent);
       transition: height 0.3s;
     }
-    .project-card:hover { background: #181818; }
+    .project-card:hover { background: #e6ebf2; }
     .project-card:hover::before { height: 100%; }
 
     .project-number {
@@ -426,7 +426,7 @@
     }
     #contact .section-title {
       font-size: clamp(2.5rem, 6vw, 5rem);
-      letter-spacing: -2px;
+      letter-spacing: -0.5px;
       margin-bottom: 1.5rem;
     }
     #contact .section-sub {
@@ -479,9 +479,82 @@
       .nav-links { display: none; }
       .project-grid { grid-template-columns: 1fr; }
     }
+    /* ─── 3D BACKDROP & KINETIC MOTION ────────── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    main, section, footer, .divider {
+      position: relative;
+      z-index: 1;
+    }
+
+    #projects, #contact {
+      background: transparent;
+    }
+    #experience {
+      background: rgba(238, 241, 245, 0.82);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+    }
+
+    /* 3D card tilt + cursor spotlight */
+    .project-card {
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease-out, background 0.2s, border-color 0.2s;
+      will-change: transform;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        380px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(49, 93, 138, 0.12),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+    .project-card:hover::after {
+      opacity: 1;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: perspective(800px) translateY(28px) rotateX(6deg);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: perspective(800px) translateY(0) rotateX(0deg);
+    }
   </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="hero.js"></script>
 </head>
 <body>
+<canvas id="bg-canvas"></canvas>
 
 <!-- NAV -->
 <nav id="nav">
@@ -499,22 +572,22 @@
   <div class="hero-grid-line"></div>
   <div class="hero-grid-line"></div>
 
-  <p class="hero-eyebrow">Software Engineer — Ghana</p>
-  <h1>Jesse<br><em>Appiah</em></h1>
-  <p class="hero-desc">
-    I build <strong>full-stack web applications</strong> and <strong>cloud-ready APIs</strong>
-    — currently studying Information Technology at UENR and shipping real products
-    through ALX Africa, internships, and side projects.
-  </p>
-  <div class="hero-cta">
-    <a href="#projects" class="btn btn-primary">View My Work ↓</a>
-    <a href="#contact" class="btn btn-outline">Get In Touch</a>
+  <div class="hero-content" id="hero-content">
+    <p class="hero-eyebrow">Software Engineer · Backend · Cloud — Ghana</p>
+    <h1>Jesse O.A Appiah</h1>
+    <p class="hero-desc">
+      I build <strong>backend systems, REST APIs, and practical automations</strong>
+      : studying Information Technology at UENR and building with Python,
+      Django, Node.js, and AWS.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work ↓</a>
+      <a href="#contact" class="btn btn-outline">Get In Touch</a>
+    </div>
   </div>
 
-  <!-- <p class="hero-scroll-hint">Scroll to explore</p> -->
-</section>
 
-<div class="divider"></div>
+</section>
 
 <!-- ABOUT -->
 <section id="about">
@@ -528,46 +601,48 @@
       <span class="tag">React</span>
       <span class="tag">JavaScript</span>
       <span class="tag">HTML/CSS</span>
-      <span class="tag">AWS</span>
-      <span class="tag">Railway</span>
+      <span class="tag">Node.js</span>
+      <span class="tag">Express.js</span>
       <span class="tag">PostgreSQL</span>
+      <span class="tag">Docker</span>
+      <span class="tag">AWS</span>
       <span class="tag">Git / GitHub</span>
       <span class="tag">n8n</span>
-      <span class="tag">Product Management</span>
     </div>
   </div>
   <div class="about-right">
     <p class="about-text">
-      I'm a <strong>3rd-year BSc Information Technology</strong> student (Computer Software Engineering)
-      at the University of Energy and Natural Resources, Ghana — currently on First Class standing
-      and holding the <strong>MTN Bright Scholarship</strong>.
+      I am<strong>Jesse Obeng Andoh Appiah</strong>, an Information Technology undergraduate
+      at the University of Energy and Natural Resources (UENR), Ghana.
     </p>
     <p class="about-text">
-      I build across the full stack — REST APIs with Django, interactive UIs with React and vanilla JS,
-      and cloud deployments on Railway and AWS. I'm enrolled in <strong>ALX Africa</strong>
-      (Frontend + Backend tracks) and actively completing the <strong>AmaliTech AWS re/Start</strong>
-      Cloud Training programme.
+      I build backend systems with Django REST Framework and Node.js, and work with PostgreSQL,
+      Docker, AWS, and workflow automation. I completed the <strong>ALX Africa Software
+      Engineering Programme</strong> and hold the <strong>AWS Certified Cloud Practitioner</strong>
+      certification.
     </p>
     <p class="about-text">
-      I care about shipping things that actually work — clean code, good architecture, and products
-      real people can use. My goal is remote work and eventually building my own company.
+      Recent work includes deploying a Django API on AWS and building a WhatsApp lead qualification
+      workflow. I'm interested in backend engineering, automation, and cloud
+      infrastructure, and I'm open to remote opportunities.
     </p>
     <div class="stat-row" style="margin-top:2.5rem">
       <div class="stat-item">
+        <div class="stat-number">16+</div>
+        <div class="stat-label"><strong>Software Projects</strong><br>Built across professional internships, ALX training, mentorship and independent engineering projects.
+</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5+</div>
+        <div class="stat-label"> <strong>Deployed Applications</strong><br>Applications deployed across cloud infrastructure, containerised environments and client-facing solutions.</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5+</div>
+        <div class="stat-label"><strong>Open-Source Contributions</strong><br>Contributions to public repositories through accepted pull requests, improving tools and projects used by the developer community.</div>
+      </div>
+      <div class="stat-item">
         <div class="stat-number">3+</div>
-        <div class="stat-label">Years Building</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">6+</div>
-        <div class="stat-label">Projects Shipped</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">2</div>
-        <div class="stat-label">Internships</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">1st</div>
-        <div class="stat-label">Class Standing</div>
+        <div class="stat-label"><strong>Engineering Domains</strong><br>Backend Engineering, AI Engineering & Automation, and Cloud Infrastructure.</div>
       </div>
     </div>
   </div>
@@ -609,25 +684,27 @@
       </div>
     </div> -->
 
-    <!-- Inventory Management API -->
+    <!-- InvenCore -->
     <div class="project-card reveal">
-      <p class="project-number">02</p>
-      <h3 class="project-title">Inventory Management API</h3>
+      <p class="project-number">01</p>
+      <h3 class="project-title">InvenCore</h3>
       <p class="project-desc">
-        A production-deployed REST API built with Django REST Framework. Features full CRUD operations,
-        custom permissions, JWT authentication, and is live on Railway with a PostgreSQL backend.
+        A production Django REST API independently re-architected and deployed on AWS. The upgrade
+        introduced Docker, PostgreSQL, S3 media storage with scoped IAM access, Nginx, HTTPS, and
+        role-based permissions for Admin, Staff, and Viewer roles.
       </p>
       <div class="project-stack">
         <span class="stack-tag">Python</span>
-        <span class="stack-tag">Django REST</span>
+        <span class="stack-tag">Django REST Framework</span>
         <span class="stack-tag">PostgreSQL</span>
-        <span class="stack-tag">Railway</span>
-        <span class="stack-tag">JWT</span>
+        <span class="stack-tag">Docker</span>
+        <span class="stack-tag">AWS</span>
+        <span class="stack-tag">Nginx</span>
       </div>
       <div class="project-links">
-        <a href="https://web-production-ac7b80.up.railway.app" target="_blank" class="project-link">
+        <a href="https://invencore.ddns.net/api/docs/" target="_blank" rel="noopener noreferrer" class="project-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live API
+          API Documentation
         </a>
         <a href="https://github.com/jesse-aj/INVENTORY_API_SYSTEM" target="_blank" class="project-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 0 1 5.12-2.12C15.04 7.83 15.5 9 15 10c-.5 1-2 2-2 4m0 4h.01"/></svg>
@@ -636,14 +713,69 @@
       </div>
     </div>
 
-    <!-- PageTurner Books -->
+    <!-- DryRun -->
+    <div class="project-card reveal">
+      <p class="project-number">02</p>
+      <h3 class="project-title">DryRun</h3>
+      <p class="project-desc">
+        A voice-first interview practice platform that creates mock interviews tailored to uploaded
+        resumes. Includes speech-based interviews, feedback reports, interview history, and
+        user-specific data protection.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">Next.js</span>
+        <span class="stack-tag">React</span>
+        <span class="stack-tag">Supabase</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">Speech Recognition</span>
+        <span class="stack-tag">Speech Synthesis</span>
+        <span class="stack-tag">Vercel</span>
+      </div>
+    </div>
+
+    <!-- Pixly API -->
     <div class="project-card reveal">
       <p class="project-number">03</p>
+      <h3 class="project-title">Pixly API</h3>
+      <p class="project-desc">
+        An in-progress social networking backend built around authentication, resource ownership,
+        validated requests, and feed generation. Includes security middleware, pagination, and
+        MongoDB indexing.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">Node.js</span>
+        <span class="stack-tag">Express.js</span>
+        <span class="stack-tag">MongoDB</span>
+        <span class="stack-tag">JWT</span>
+        <span class="stack-tag">Zod</span>
+      </div>
+    </div>
+
+    <!-- WhatsApp Lead Automation -->
+    <div class="project-card reveal">
+      <p class="project-number">04</p>
+      <h3 class="project-title">WhatsApp Lead Automation</h3>
+      <p class="project-desc">
+        A real-estate lead capture and qualification workflow integrating WhatsApp and Meta Graph
+        API. Uses webhook-driven automation and Python verification; currently paused pending Meta
+        Business verification.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">n8n</span>
+        <span class="stack-tag">Meta Graph API</span>
+        <span class="stack-tag">Webhooks</span>
+        <span class="stack-tag">Python</span>
+      </div>
+    </div>
+
+    <!-- PageTurner Books -->
+    <div class="project-card reveal">
+      <p class="project-number">05</p>
       <h3 class="project-title">PageTurner Books</h3>
       <p class="project-desc">
         A fully responsive bookstore web application built with HTML, CSS, and vanilla JavaScript.
-        Deployed on Vercel as part of a Web Engineering group project. Clean UI, product browsing,
-        and checkout flow.
+        Built for a local Ghanaian business with product listings, live inventory integration, and
+        WhatsApp-based checkout. Developed as a Web Engineering group project and deployed on Vercel.
       </p>
       <div class="project-stack">
         <span class="stack-tag">HTML</span>
@@ -663,68 +795,26 @@
       </div>
     </div>
 
-    <!-- GUI Task Reminder -->
-    <div class="project-card reveal">
-      <p class="project-number">04</p>
-      <h3 class="project-title">GUI Task Reminder</h3>
-      <p class="project-desc">
-        A desktop productivity app with a GUI and automated email reminders. Built during my
-        LearnDepth internship — handles task scheduling and sends email notifications using Python's
-        smtplib and tkinter.
-      </p>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">Tkinter</span>
-        <span class="stack-tag">smtplib</span>
-        <span class="stack-tag">Email Automation</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/jesse-aj/Learn-Depth-Internship-Proj-1/tree/main/GUI_Based_Task_Reminder" target="_blank" class="project-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 0 1 5.12-2.12C15.04 7.83 15.5 9 15 10c-.5 1-2 2-2 4m0 4h.01"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
 
-    <!-- Smart File Organizer -->
-    <div class="project-card reveal">
-      <p class="project-number">05</p>
-      <h3 class="project-title">Smart File Organizer</h3>
-      <p class="project-desc">
-        A Python CLI tool that automatically sorts files in a directory into categorized folders
-        based on file type. Built during my LearnDepth internship as a real-world automation utility.
-      </p>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">CLI</span>
-        <span class="stack-tag">File Automation</span>
-        <span class="stack-tag">os / shutil</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/jesse-aj/Learn-Depth-Internship-Proj-1/tree/main/Smart_File_Organizer" target="_blank" class="project-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 0 1 5.12-2.12C15.04 7.83 15.5 9 15 10c-.5 1-2 2-2 4m0 4h.01"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
 
-    <!-- CLI Expense Tracker -->
+    <!-- Weather App -->
     <div class="project-card reveal">
       <p class="project-number">06</p>
-      <h3 class="project-title">CLI Expense Tracker</h3>
+      <h3 class="project-title">Weather App</h3>
       <p class="project-desc">
-        A command-line personal finance tracker that logs income and expenses, calculates
-        summaries, and exports data to CSV. Clean CLI UX built with Python and argparse.
+        A React weather app that retrieves location-based forecasts from a public API and updates
+        the interface with current conditions.
       </p>
       <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">CLI</span>
-        <span class="stack-tag">CSV</span>
+        <span class="stack-tag">React</span>
+        <span class="stack-tag">JavaScript</span>
+        <span class="stack-tag">Weather API</span>
+        <span class="stack-tag">Vercel</span>
       </div>
       <div class="project-links">
-        <a href="https://github.com/jesse-aj/Learn-Depth-Internship-Proj-1/tree/main/Expense-Tracker-CLI" target="_blank" class="project-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 0 1 5.12-2.12C15.04 7.83 15.5 9 15 10c-.5 1-2 2-2 4m0 4h.01"/></svg>
-          GitHub
+        <a href="https://weather-now-dun-mu.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Demo
         </a>
       </div>
     </div>
@@ -743,62 +833,62 @@
   <div class="exp-list">
 
     <div class="exp-item reveal">
-      <div class="exp-date">Apr 2026 — Present</div>
+      <div class="exp-date">Certification</div>
       <div>
-        <p class="exp-role">AWS re/Start Cloud Trainee</p>
-        <p class="exp-company">AmaliTech Training Academy</p>
+        <p class="exp-role">AWS Certified Cloud Practitioner</p>
+        <p class="exp-company">Amazon Web Services</p>
         <p class="exp-desc">
-          Enrolled in the AmaliTech AWS re/Start programme (University Edition) — hands-on cloud
-          training covering core AWS services, networking, security, and cloud architecture fundamentals.
+          Earned the AWS Certified Cloud Practitioner credential, demonstrating foundational knowledge
+          of AWS cloud services, security, architecture, and pricing.
         </p>
       </div>
     </div>
 
     <div class="exp-item reveal">
-      <div class="exp-date">2026 — Present</div>
+      <div class="exp-date">Mar 2026 — Present</div>
       <div>
-        <p class="exp-role">Product Management Intern</p>
-        <p class="exp-company">Getwell / OSPOS Healthcare Team</p>
+        <p class="exp-role">Freelance Automation / Backend Engineer</p>
+        <p class="exp-company">Parent Estate Limited · Remote</p>
         <p class="exp-desc">
-          Unpaid PM internship on a healthcare product team. Supporting discovery, backlog management,
-          and stakeholder coordination using Trello and collaborative tools alongside senior PM Moses.
+          Designed a real-estate lead qualification workflow using n8n and Meta Graph API.
+          Built webhook-driven automation and Python verification; the project is currently paused
+          pending Meta Business verification.
         </p>
       </div>
     </div>
 
     <div class="exp-item reveal">
-      <div class="exp-date">2026</div>
+      <div class="exp-date">Feb 2026 — Mar 2026</div>
       <div>
-        <p class="exp-role">Software Development Intern</p>
+        <p class="exp-role">Python Software Engineering Intern</p>
         <p class="exp-company">LearnDepth Academy</p>
         <p class="exp-desc">
-          Shipped three complete projects during internship: a Smart File Organizer (Python automation),
-          a CLI Expense Tracker, and a GUI Task Reminder with email automation. All projects built
-          from scratch.
+          Built a MERN ERP system and implemented 13 REST API endpoints across authentication,
+          projects, tasks, and dashboard modules, with JWT authentication and role-based middleware.
         </p>
       </div>
     </div>
 
     <div class="exp-item reveal">
-      <div class="exp-date">2024 — 2025 </div>
+      <div class="exp-date">Jun 2025 — May 2026</div>
       <div>
-        <p class="exp-role">Frontend + Backend Track Student</p>
+        <p class="exp-role">Software Engineering Trainee</p>
         <p class="exp-company">ALX Africa</p>
         <p class="exp-desc">
-          Enrolled in both the Frontend and Backend tracks — covering React, Node.js, Python, Django,
-          REST APIs, and software engineering fundamentals through project-based learning.
+          Completed a nine-month frontend and backend programme covering React, Python, Django,
+          databases, and software engineering. Collaborated with distributed teams using Git,
+          GitHub, and Agile workflows.
         </p>
       </div>
     </div>
 
     <div class="exp-item reveal">
-      <div class="exp-date">2022 — Present</div>
+      <div class="exp-date">2023 — 2027 (Expected)</div>
       <div>
-        <p class="exp-role">BSc Information Technology — Computer Software Engineering</p>
+        <p class="exp-role">BSc Information Technology</p>
         <p class="exp-company">University of Energy and Natural Resources (UENR), Ghana</p>
         <p class="exp-desc">
-          3rd-year student with First Class standing. MTN Bright Scholarship holder.
-          Coursework spans software engineering, OS, networking, data mining, IT governance,
+          Coursework spans software engineering, operating systems, networking, data mining, IT auditing,
           web engineering, and game development.
         </p>
       </div>
@@ -817,7 +907,7 @@
     I'm open to internships, freelance projects, and remote opportunities.
     If you have something interesting — reach out.
   </p>
-  <a href="mailto:appiahjesse123@gmail.com]" class="btn btn-primary" style="font-size:1rem; padding:0.9rem 2rem;">
+  <a href="mailto:jesseappiah740@gmail.com" class="btn btn-primary" style="font-size:1rem; padding:0.9rem 2rem;">
     Say Hello ↗
   </a>
   <div class="contact-links">
@@ -829,8 +919,8 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>Jesse Appiah &copy; 2025</span>
-  <span style="color:#444">Designed &amp; built by AJ</span>
+  <span>Jesse Obeng Andoh Appiah &copy; 2026</span>
+  <span style="color:#657184">Designed &amp; built by AJ</span>
 </footer>
 
 <script>
